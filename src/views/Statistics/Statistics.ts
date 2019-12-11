@@ -7,6 +7,8 @@ import JsonCSV from "vue-json-csv";
 import EventTrap from "../../components/EventTrap.vue";
 import DataTable from "../../components/DataTable.vue";
 import LinePlot from "../../components/LinePlot.vue";
+import MaxLine from "../../components/MaxLine.vue";
+import MinLine from "../../components/MinLine.vue";
 
 Vue.component("downloadCsv", JsonCSV);
 
@@ -15,7 +17,9 @@ Vue.component("downloadCsv", JsonCSV);
     VuePlotly,
     EventTrap,
     DataTable,
-    LinePlot
+    LinePlot,
+    MaxLine,
+    MinLine
   }
 })
 

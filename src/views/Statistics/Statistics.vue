@@ -222,12 +222,13 @@
             </v-tab-item>
             <v-tab-item >
               <v-card flat color="basil">
-                <v-card-text>Max</v-card-text>
+                <!-- <v-card-text>Max</v-card-text> -->
+                <MaxLine :myProps ="allData"/>
               </v-card>
             </v-tab-item >
             <v-tab-item >
               <v-card flat color="basil">
-                <v-card-text>Min</v-card-text>
+                <MinLine :myProps ="allData"/>
               </v-card>
             </v-tab-item> 
             <v-tab-item >
