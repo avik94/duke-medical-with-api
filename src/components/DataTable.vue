@@ -45,7 +45,36 @@ export default class DataTable extends Vue {
     { text: "Ph2_Voltage_Variation", value: "Ph2_Voltage_Variation" },
     { text: "Ph3_Voltage_Variation", value: "Ph3_Voltage_Variation" }
   ];
-  desserts = [];
+  desserts = [{
+      time_stamp: "time",
+      Ph1_Voltage_Variation: 1,
+      Ph2_Voltage_Variation: 1,
+      Ph3_Voltage_Variation: 1
+    },
+    {
+      time_stamp: "time",
+      Ph1_Voltage_Variation: 1,
+      Ph2_Voltage_Variation: 1,
+      Ph3_Voltage_Variation: 1
+    },
+    {
+      time_stamp: "time",
+      Ph1_Voltage_Variation: 1,
+      Ph2_Voltage_Variation: 10,
+      Ph3_Voltage_Variation: 1
+    },
+    {
+      time_stamp: "time",
+      Ph1_Voltage_Variation: 10,
+      Ph2_Voltage_Variation: 1,
+      Ph3_Voltage_Variation: 1
+    },
+    {
+      time_stamp: "time",
+      Ph1_Voltage_Variation: 0,
+      Ph2_Voltage_Variation: 1,
+      Ph3_Voltage_Variation: 1
+    }];
 
   created() {
     var parsedobj = JSON.parse(JSON.stringify(this.dataSet));

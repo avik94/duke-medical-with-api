@@ -215,7 +215,7 @@
           <v-tabs-items v-model="tab">
             <v-tab-item >
               <!-- line-plot -->
-              <v-card flat color="basil">
+              <v-card flat color="basil" >
                <LinePlot :myProps ="allData"/>
               </v-card>
               <!-- line-plot end -->
@@ -244,7 +244,7 @@
             <v-tab-item>
               <!-- data-table -->
               <v-card class="tabContent">
-                  <DataTable :dataSet = "desserts"></DataTable>
+                  <DataTable></DataTable>
               </v-card>
               <!-- data-table-end -->
             </v-tab-item>          
@@ -284,7 +284,7 @@
             <v-tab-item>
               <!-- data-table -->
               <v-card class="tabContent">
-                <DataTable :dataSet = "desserts"></DataTable>
+                <DataTable></DataTable>
               </v-card>
               <!-- data-table-end -->
             </v-tab-item>    

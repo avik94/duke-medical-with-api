@@ -50,79 +50,6 @@ export default class Statistics extends Vue {
   items = ["Line Plot", "Max", "Min", "FFT","Event Trap", "Data Table"]; 
   // tab section end
 
-  // Datatable Section
-  // search = "";
-  // headers = [
-  //   {
-  //     text: "Time Stamp",
-  //     align: "left",
-  //     sortable: false,
-  //     value: "time_stamp"
-  //   },
-  //   { text: "Ph1_Voltage_Variation", value: "Ph1_Voltage_Variation" },
-  //   { text: "Ph2_Voltage_Variation", value: "Ph2_Voltage_Variation" },
-  //   { text: "Ph3_Voltage_Variation", value: "Ph3_Voltage_Variation" }
-  // ];
-  desserts = [
-    {
-      time_stamp: "time",
-      Ph1_Voltage_Variation: 1,
-      Ph2_Voltage_Variation: 1,
-      Ph3_Voltage_Variation: 1
-    },
-    {
-      time_stamp: "time",
-      Ph1_Voltage_Variation: 1,
-      Ph2_Voltage_Variation: 1,
-      Ph3_Voltage_Variation: 1
-    },
-    {
-      time_stamp: "time",
-      Ph1_Voltage_Variation: 1,
-      Ph2_Voltage_Variation: 10,
-      Ph3_Voltage_Variation: 1
-    },
-    {
-      time_stamp: "time",
-      Ph1_Voltage_Variation: 10,
-      Ph2_Voltage_Variation: 1,
-      Ph3_Voltage_Variation: 1
-    },
-    {
-      time_stamp: "time",
-      Ph1_Voltage_Variation: 0,
-      Ph2_Voltage_Variation: 1,
-      Ph3_Voltage_Variation: 1
-    }
-  ];
-  // Datatable-end
-
-  // line- plot
-  linedata = {
-    data: [
-      {
-        x: ["08:28", "09:05", "06:20"],
-        y: [20, 80, 40],
-        type: "line",
-        name: "vh1"
-      },
-      {
-        x: ["jan", "Feb", "Mar", "April", "May", "June", "July"],
-        y: [40, 70, 50, 30, 90, 15, 60],
-        type: "line",
-        name: "vh2"
-      },
-      {
-        x: ["jan", "Feb", "Mar", "April", "May", "June", "July"],
-        y: [10, 30, 65, 25, 70, 50, 95],
-        type: "wave",
-        name: "vh3"
-      }
-    ],
-    layout: {},
-    options: {}
-  };
-  // line-plot end
 
   created() {
     let data = JSON.parse(sessionStorage.form);
@@ -235,6 +162,7 @@ export default class Statistics extends Vue {
     // console.log(this.toDate);
     // console.log(this.toHourMinutes);
     sessionStorage.setItem('form', JSON.stringify(data));
+    // this.tab = 0;
     this.allData = data;
     
   }
