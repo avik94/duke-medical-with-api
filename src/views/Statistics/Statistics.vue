@@ -231,11 +231,11 @@
                 <MinLine :myProps ="allData"/>
               </v-card>
             </v-tab-item> 
-            <v-tab-item >
+            <!-- <v-tab-item >
               <v-card flat color="basil">
                 <v-card-text>FFT</v-card-text>
               </v-card>
-            </v-tab-item>
+            </v-tab-item> -->
             <v-tab-item>
               <v-card flat color="basil">
                 <EventTrap :statData="statList" :myProps ="allData"></EventTrap>
@@ -267,11 +267,11 @@
             </v-tab-item>
             <!-- end line plot -->
             <!-- fft -->
-            <v-tab-item >
+            <!-- <v-tab-item >
               <v-card flat color="basil">
                 <v-card-text>FFT</v-card-text>
               </v-card>
-            </v-tab-item>
+            </v-tab-item> -->
             <!-- end fft -->
             <!-- event trap -->
             <v-tab-item>

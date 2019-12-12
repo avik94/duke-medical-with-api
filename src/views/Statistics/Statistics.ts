@@ -47,7 +47,7 @@ export default class Statistics extends Vue {
   machineList = [];
   statList:string[] = [];
   groupList = ["MRI Health", "Energy Audit", "Drive Health"];
-  items = ["Line Plot", "Max", "Min", "FFT","Event Trap", "Data Table"]; 
+  items = ["Line Plot", "Max", "Min","Event Trap", "Data Table"]; 
   // tab section end
 
 
@@ -90,12 +90,12 @@ export default class Statistics extends Vue {
     // }
 
     if(this.stat === "Voltage(L-N)" || this.stat === "Voltage(L-L)"){
-        this.items = ["Line Plot", "Max", "Min", "FFT",  "Event Trap", "Data Table"];
+        this.items = ["Line Plot", "Max", "Min", "Event Trap", "Data Table"];
         this.maxMin = true;
         this.normal = false;
         this.tab = 0;
     }else{
-        this.items = ["Line Plot", "FFT",  "Event Trap", "Data Table"];
+        this.items = ["Line Plot", "Event Trap", "Data Table"];
         this.maxMin = false;
         this.normal = true;
         this.tab = 0;
@@ -199,12 +199,12 @@ export default class Statistics extends Vue {
   }
   clickStat(data:any){
     if(data === "Voltage(L-N)" || data === "Voltage(L-L)"){
-        this.items = ["Line Plot", "Max", "Min", "FFT",  "Event Trap", "Data Table"];
+        this.items = ["Line Plot", "Max", "Min", "Event Trap", "Data Table"];
         this.maxMin = true;
         this.normal = false;
         this.tab = 0;
     }else{
-        this.items = ["Line Plot", "FFT",  "Event Trap", "Data Table"];
+        this.items = ["Line Plot", "Event Trap", "Data Table"];
         this.maxMin = false;
         this.normal = true;
         this.tab = 0;
