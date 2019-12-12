@@ -5,12 +5,12 @@
         <!-- machine & stat row start -->
         <v-row>
           <v-col cols="4">
-            <v-select :items="machineList" label="Machine" v-model="machine" ></v-select>
+            <v-select :items="machineList" label="Machine" v-model="machine"></v-select>
           </v-col>
           <!-- <v-col cols="3">
             <v-select :items="groupList" label="Group" v-model="group" 
               @change="clickGroup(group)"></v-select>
-          </v-col> -->
+          </v-col>-->
           <v-col cols="4">
             <v-select :items="statList" label="Stat" v-model="stat" @change="clickStat(stat)"></v-select>
           </v-col>
@@ -147,7 +147,12 @@
                   </v-form>
                 </div>
                 <div class="text-center" style="padding-bottom:20px;">
-                  <v-btn dark color="primary" @click="submitTimeInput()" style="margin-right:10px;">Submit</v-btn>
+                  <v-btn
+                    dark
+                    color="primary"
+                    @click="submitTimeInput()"
+                    style="margin-right:10px;"
+                  >Submit</v-btn>
                   <v-btn color="warning" dark @click="clearInput()">Clear</v-btn>
                 </div>
               </v-card>
@@ -209,88 +214,105 @@
       <v-col cols="12">
         <v-card v-if="maxMin">
           <v-tabs v-model="tab" background-color="transparent" color="#072d97" grow>
-            <v-tab v-for="(item, index) in items" :key="index">{{ item }} </v-tab>
+            <v-tab v-for="(item, index) in items" :key="index">{{ item }}</v-tab>
           </v-tabs>
 
           <v-tabs-items v-model="tab">
-            <v-tab-item >
+            <v-tab-item>
               <!-- line-plot -->
-              <v-card flat color="basil" >
-               <LinePlot :myProps ="allData"/>
+              <v-card flat color="basil">
+                <LinePlot :myProps="allData" />
               </v-card>
               <!-- line-plot end -->
             </v-tab-item>
-            <v-tab-item >
+            <v-tab-item>
               <v-card flat color="basil">
-                <!-- <v-card-text>Max</v-card-text> -->
-                <MaxLine :myProps ="allData"/>
+                <MaxLine :myProps="allData" />
               </v-card>
-            </v-tab-item >
-            <v-tab-item >
+            </v-tab-item>
+            <v-tab-item>
               <v-card flat color="basil">
-                <MinLine :myProps ="allData"/>
+                <MinLine :myProps="allData" />
               </v-card>
-            </v-tab-item> 
-            <!-- <v-tab-item >
+            </v-tab-item>
+            <!-- <v-tab-item>
               <v-card flat color="basil">
-                <v-card-text>FFT</v-card-text>
+                <EventTrap :statData="statList" :myProps="allData"></EventTrap>
               </v-card>
             </v-tab-item> -->
+            <!-- data-table -->
             <v-tab-item>
-              <v-card flat color="basil">
-                <EventTrap :statData="statList" :myProps ="allData"></EventTrap>
-              </v-card>
-            </v-tab-item> 
-            <v-tab-item>
-              <!-- data-table -->
               <v-card class="tabContent">
-                  <DataTable></DataTable>
+                <DataTable></DataTable>
               </v-card>
-              <!-- data-table-end -->
-            </v-tab-item>          
+            </v-tab-item>
+            <!-- data-table-end -->
           </v-tabs-items>
         </v-card>
 
         <v-card v-if="normal">
           <v-tabs v-model="tab" background-color="transparent" color="#072d97" grow>
-            <v-tab v-for="(item, index) in items" :key="index">{{ item }} </v-tab>
+            <v-tab v-for="(item, index) in items" :key="index">{{ item }}</v-tab>
           </v-tabs>
 
           <v-tabs-items v-model="tab">
             <!-- line plot -->
-            <v-tab-item >
+            <v-tab-item>
               <!-- line-plot -->
               <v-card flat color="basil">
-                <LinePlot :myProps ="allData"/>
+                <LinePlot :myProps="allData" />
               </v-card>
               <!-- line-plot end -->
             </v-tab-item>
-            <!-- end line plot -->
-            <!-- fft -->
-            <!-- <v-tab-item >
-              <v-card flat color="basil">
-                <v-card-text>FFT</v-card-text>
-              </v-card>
-            </v-tab-item> -->
-            <!-- end fft -->
             <!-- event trap -->
             <v-tab-item>
               <v-card flat color="basil">
-                <EventTrap :statData="statList" :myProps ="allData"></EventTrap>
+                <EventTrap :statData="statList" :myProps="allData"></EventTrap>
               </v-card>
-            </v-tab-item> 
+            </v-tab-item>
             <!-- end event trap -->
             <!-- data table -->
             <v-tab-item>
-              <!-- data-table -->
               <v-card class="tabContent">
                 <DataTable></DataTable>
               </v-card>
-              <!-- data-table-end -->
-            </v-tab-item>    
+            </v-tab-item>
             <!-- end data table -->
           </v-tabs-items>
         </v-card>
+
+        <v-card v-if="noEventTab">
+          <v-tabs v-model="tab" background-color="transparent" color="#072d97" grow>
+            <v-tab v-for="(item, index) in items" :key="index">{{ item }}</v-tab>
+          </v-tabs>
+
+          <v-tabs-items v-model="tab">
+            <!-- line plot -->
+            <v-tab-item>
+              <!-- line-plot -->
+              <v-card flat color="basil">
+                <LinePlot :myProps="allData" />
+              </v-card>
+              <!-- line-plot end -->
+            </v-tab-item>
+            <!-- event trap -->
+            <!-- <v-tab-item>
+              <v-card flat color="basil">
+                <EventTrap :statData="statList" :myProps="allData"></EventTrap>
+              </v-card>
+            </v-tab-item> -->
+            <!-- end event trap -->
+            <!-- data table -->
+            <v-tab-item>
+              <v-card class="tabContent">
+                <DataTable></DataTable>
+              </v-card>
+            </v-tab-item>
+            <!-- end data table -->
+          </v-tabs-items>
+        </v-card>
+
+        
       </v-col>
     </v-row>
   </v-container>

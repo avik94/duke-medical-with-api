@@ -39,6 +39,7 @@ export default class Statistics extends Vue {
   // max min logic
   maxMin?:boolean;
   normal?:boolean;
+  noEventTab?: boolean;
 
   formData!: any;
 
@@ -89,7 +90,7 @@ export default class Statistics extends Vue {
     //     ]
     // }
 
-    if(this.stat === "Voltage(L-N)" || this.stat === "Voltage(L-L)"){
+    if(this.stat === "Voltage(L-N)" || this.stat === "Voltage(L-L)" || this.stat === "Current-3 phase"){
         this.items = ["Line Plot", "Max", "Min", "Event Trap", "Data Table"];
         this.maxMin = true;
         this.normal = false;
@@ -198,17 +199,26 @@ export default class Statistics extends Vue {
     }
   }
   clickStat(data:any){
-    if(data === "Voltage(L-N)" || data === "Voltage(L-L)"){
-        this.items = ["Line Plot", "Max", "Min", "Event Trap", "Data Table"];
+    if(data === "Voltage(L-N)" || data === "Voltage(L-L)" || data === "Current-3 phase"){
+        this.items = ["Line Plot", "Max", "Min", "Data Table"];
         this.maxMin = true;
         this.normal = false;
         this.tab = 0;
-    }else{
+    }
+    else if(data === "PF-3 phase" || data === "Neutral current"){
+      this.items = ["Line Plot", "Data Table"];
+      this.maxMin = true;
+      this.normal = false;
+      this.noEventTab = false;
+      this.tab = 0;
+    }
+    else{
         this.items = ["Line Plot", "Event Trap", "Data Table"];
         this.maxMin = false;
         this.normal = true;
         this.tab = 0;
-
     }
+    
+    // "Voltage(L-N)","Voltage(L-L)", "Current-3 phase", "PF-3 phase", "Neutral current"
   }
 }                                                                                                                                                                                                                                                                              
