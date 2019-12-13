@@ -295,13 +295,6 @@
               </v-card>
               <!-- line-plot end -->
             </v-tab-item>
-            <!-- event trap -->
-            <!-- <v-tab-item>
-              <v-card flat color="basil">
-                <EventTrap :statData="statList" :myProps="allData"></EventTrap>
-              </v-card>
-            </v-tab-item> -->
-            <!-- end event trap -->
             <!-- data table -->
             <v-tab-item>
               <v-card class="tabContent">

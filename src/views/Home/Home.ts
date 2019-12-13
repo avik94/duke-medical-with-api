@@ -23,6 +23,8 @@ export default class Home extends Vue {
     {name: "3 Days", value: "3d"}    
   ]
 
+  timeZoneList = ["IST", "UTC", "EST"];
+
   // calender
   menu1 = false;
   menu2 = false;
@@ -41,6 +43,7 @@ export default class Home extends Vue {
   machine = "";
   stat = "";
   group = "";
+  timeZone = "";
   toDate = "";
   toHourMinutes = "";
   fromDate = "";
@@ -91,6 +94,7 @@ export default class Home extends Vue {
       this.fromDate = data.fromDate;
       this.fromHourMinutes = data.fromHourMinutes;
       this.quickTime  = data.quickTime;
+      this.timeZone = data.timeZone;
       this.statList = statItems;
     }   
 
@@ -113,7 +117,8 @@ export default class Home extends Vue {
         toDate : this.toDate,
         toHourMinutes: this.toHourMinutes,
         fromDate : this.fromDate,
-        fromHourMinutes: this.fromHourMinutes
+        fromHourMinutes: this.fromHourMinutes,
+        timeZone: this.timeZone
       }
 
       this.$store.commit('storeFormData',formData);

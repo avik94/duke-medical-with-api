@@ -68,38 +68,27 @@ export default class Statistics extends Vue {
     this.fromDate = data.fromDate;
     this.fromHourMinutes = data.fromHourMinutes;
     this.quickTime  = data.quickTime;
+    this.timeZone = data.timeZone;
     this.statList = statItems;
-    // if(this.group === "MRI Health"){
-    //     this.statList = [
-    //       'Voltage(L-N)','Voltage(L-L)', 'Current-3 phase', 'Neutral current', 'Step Current Change (A)', 'PF-3 phase','Voltage variation (%)',                          
-    //       'Voltage Total Harmonic Distortion (%)', 'Current Total Harmonic Distortion (%)','Frequency Variation (%)'
-    //     ]
-    // }
-    // if(this.group === "Energy Audit"){
-    //     this.statList = [
-    //     'Voltage', 'Current', 'Power Factor', 'Active Power', 'Reactive Power','Voltage Total Harmonic Distortion',
-    //     'Voltage Total Harmonic Distortion 95th Percentile', 'Voltage Total Harmonic Distortion 99th Percentile', 
-    //     'Current Total Harmonic Distortion', 'Current Total Harmonic Distortion 95th Percentile', 'Current Total Harmonic Distortion 99th Percentile',    
-    //     'Frequency Variation', 'Maximum Demand Load current', 'Short-Circuit Ratio'
-    //     ]
-    // }
-    // if(this.group === "Drive Health"){
-    //     this.statList = [
-    //       'Voltage', 'Current', 'Voltage variation', 'Voltage Total Harmonic Distortion', 'Current Total Harmonic Distortion',                                                       
-    //       'Frequency Variation', 'Drive Temperature'
-    //     ]
-    // }
 
     if(this.stat === "Voltage(L-N)" || this.stat === "Voltage(L-L)" || this.stat === "Current-3 phase"){
-        this.items = ["Line Plot", "Max", "Min", "Event Trap", "Data Table"];
-        this.maxMin = true;
-        this.normal = false;
-        this.tab = 0;
+      this.items = ["Line Plot", "Max", "Min", "Data Table"];
+      this.maxMin = true;
+      this.normal = false;
+      this.noEventTab = false;
+      this.tab = 0;  
+    }else if(this.stat === "PF-3 phase" || this.stat === "Neutral current"){
+      this.items = ["Line Plot", "Data Table"];
+      this.maxMin = false;
+      this.normal = false;
+      this.noEventTab = true;
+      this.tab = 0;
     }else{
-        this.items = ["Line Plot", "Event Trap", "Data Table"];
-        this.maxMin = false;
-        this.normal = true;
-        this.tab = 0;
+      this.items = ["Line Plot", "Event Trap", "Data Table"];
+      this.maxMin = false;
+      this.normal = true;
+      this.noEventTab = false;
+      this.tab = 0;
     }
   }
 
@@ -115,6 +104,7 @@ export default class Statistics extends Vue {
   fromDate = "";
   fromHourMinutes = "";
   quickTime  = "";
+  timeZone = "";
 
   allData:any = {};
 
@@ -151,7 +141,8 @@ export default class Statistics extends Vue {
       fromDate: this.fromDate,
       fromHourMinutes: this.fromHourMinutes,
       toDate: this.toDate,
-      toHourMinutes: this.toHourMinutes
+      toHourMinutes: this.toHourMinutes,
+      timeZone: this.timeZone
     }
     // console.log(this.machine);
     // console.log(this.stat);
@@ -200,25 +191,25 @@ export default class Statistics extends Vue {
   }
   clickStat(data:any){
     if(data === "Voltage(L-N)" || data === "Voltage(L-L)" || data === "Current-3 phase"){
-        this.items = ["Line Plot", "Max", "Min", "Data Table"];
-        this.maxMin = true;
-        this.normal = false;
-        this.tab = 0;
-    }
-    else if(data === "PF-3 phase" || data === "Neutral current"){
-      this.items = ["Line Plot", "Data Table"];
+      this.items = ["Line Plot", "Max", "Min", "Data Table"];
       this.maxMin = true;
       this.normal = false;
       this.noEventTab = false;
-      this.tab = 0;
+      // this.tab = 0;
+    }
+    else if(data === "PF-3 phase" || data === "Neutral current"){
+      this.items = ["Line Plot", "Data Table"];
+      this.maxMin = false;
+      this.normal = false;
+      this.noEventTab = true;
+      // this.tab = 0;
     }
     else{
-        this.items = ["Line Plot", "Event Trap", "Data Table"];
-        this.maxMin = false;
-        this.normal = true;
-        this.tab = 0;
+      this.items = ["Line Plot", "Event Trap", "Data Table"];
+      this.maxMin = false;
+      this.normal = true;
+      this.noEventTab = false;
+      // this.tab = 0;
     }
-    
-    // "Voltage(L-N)","Voltage(L-L)", "Current-3 phase", "PF-3 phase", "Neutral current"
   }
 }                                                                                                                                                                                                                                                                              

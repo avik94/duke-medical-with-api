@@ -45,6 +45,13 @@
               label="Threshold"
               required
             ></v-text-field>
+            <v-select
+              v-model="timeZone"
+              :rules="dropdownName"
+              :items="timeZoneList"
+              prepend-icon="mdi-settings"
+              label="Time Zone"
+            ></v-select>
           </v-form>
           <!-- end -->
         </v-card>

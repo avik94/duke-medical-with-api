@@ -9,7 +9,7 @@
     </div>
     <!-- view div -->
     <div v-if="view">
-      <p>{{myProps}}</p>
+      <!-- <p>{{myProps}}</p> -->
       <vue-plotly :data="linedata.data" :layout="linedata.layout" :options="linedata.options" />
     </div>
   </v-container>
@@ -62,7 +62,7 @@ export default class MaxLine extends Vue {
         "Stat name": this.myProps.stat,
         "Start time": apiStartTime.toString(),
         "End time": apiEndTime.toString(),
-        "Time format": "IST"
+        "Time format": this.myProps.timeZone
       };
       console.log(data);
       // @ts-ignore
@@ -122,7 +122,7 @@ export default class MaxLine extends Vue {
         "Stat name": this.myProps.stat,
         "Start time": apiStartTime.toString(),
         "End time": apiEndTime.toString(),
-        "Time format": "IST"
+        "Time format": this.myProps.timeZone
       };
       console.log(data);
       // @ts-ignore
@@ -248,7 +248,7 @@ export default class MaxLine extends Vue {
         "Stat name": this.myProps.stat,
         "Start time": apiStartTime.toString(),
         "End time": apiEndTime.toString(),
-        "Time format": "IST"
+        "Time format": this.myProps.timeZone
       };
       console.log(data);
       // @ts-ignore
@@ -308,7 +308,7 @@ export default class MaxLine extends Vue {
         "Stat name": this.myProps.stat,
         "Start time": apiStartTime.toString(),
         "End time": apiEndTime.toString(),
-        "Time format": "IST"
+        "Time format": this.myProps.timeZone
       };
       console.log(data);
       // @ts-ignore

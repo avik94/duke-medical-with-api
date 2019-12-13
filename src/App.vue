@@ -17,7 +17,12 @@
           </v-list-item-icon>
 
           <v-list-item-content>
-            <v-list-item-title class="subtitle-2">{{ item.title }}</v-list-item-title>
+            <span>
+            <span>{{ item.title }}</span>
+            </span>
+            <span>
+              jhi
+            </span>
           </v-list-item-content>
         </v-list-item>
       </v-list>
