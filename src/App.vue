@@ -17,12 +17,7 @@
           </v-list-item-icon>
 
           <v-list-item-content>
-            <span>
-            <span>{{ item.title }}</span>
-            </span>
-            <span>
-              jhi
-            </span>
+            {{ item.title }}            
           </v-list-item-content>
         </v-list-item>
       </v-list>

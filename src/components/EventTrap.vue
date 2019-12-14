@@ -44,9 +44,9 @@
               </v-col>
             </v-row>
             <!-- event sine plot -->
-            <v-row v-if="eventPlot">
-              <div class="text-center" v-if="eventLoader">
-                <v-progress-circular :size="50" :width="2" color="purple" indeterminate></v-progress-circular>
+            <v-row>
+              <div class="text-center">
+                <!-- <v-progress-circular :size="50" :width="2" color="purple" indeterminate></v-progress-circular> -->
               </div>
               <v-col cols="12" class="text-center">
                 <vue-plotly :data="linedataSine.data" :layout="linedataSine.layout" :options="linedataSine.options" />
@@ -65,10 +65,21 @@
                 <v-select v-model="statFftEvent" :items="statFFTDropdown" label="Stats"></v-select>
               </v-col>
               <v-col cols="4" style="padding-top:30px">
-                <v-btn color="primary lighten-2" dark @click="submitFFT()">Submit</v-btn>
+                <v-btn color="primary lighten-2" dark @click="submitEventForFft()">Submit</v-btn>
               </v-col>
             </v-row>
+            <!-- fft bar plot -->
+            <v-row>
+              <div class="text-center">
+                <!-- <v-progress-circular :size="50" :width="2" color="purple" indeterminate></v-progress-circular> -->
+              </div>
+              <v-col cols="12" class="text-center">
+                <vue-plotly :data="fftBarPlot.data" :layout="fftBarPlot.layout" :options="fftBarPlot.options" />
+              </v-col>
+            </v-row>
+            <!-- fft bar plot end -->
           <!-- end -->
+
         </v-tab-item>
       </v-tabs-items>
 
@@ -227,7 +238,7 @@ export default class EventTrap extends Vue {
 
   dateDropDown: any = [];
   statEventDropdown:any = ["Voltage_3ph", "Current_3ph", "Phase_1_Voltage_Current", "Phase_2_Voltage_Current", "Phase_3_Voltage_Current"];
-  statFFTDropdown:any = [ "Phase-1 Voltage", "Phase-2 Voltage", "Phase-3 Voltage", "Phaes-1 Current","Phase-2 Current","Phase-3 Current"];
+  statFFTDropdown:any = [ "Phase_1_Voltage", "Phase_2_Voltage", "Phase_3_Voltage", "Phase_1_Current", "Phase_2_Current", "Phase_3_Current"];
 
   async created() {
     this.eventPlot = false;
@@ -255,7 +266,7 @@ export default class EventTrap extends Vue {
       const apiEndTime = Math.floor(date.getTime());
       // console.log("End Time : "+apiEndTime);
       let data = {
-        "Machine name": this.myProps.machine,
+        "Machine name": "MDB",
         "Start time": apiStartTime.toString(),
         "End time": apiEndTime.toString(),
         "Event trap time": "",
@@ -367,12 +378,46 @@ export default class EventTrap extends Vue {
   };
   // line-plot end
 
+  linedataSine:any = {
+      data: [
+      ],
+      layout: {
+      },
+      options: {}
+    };
+
+  // line - sine-plot-end
+
+  fftBarPlot:any = {
+    data: [
+      {
+        x: [],
+        y: [],
+        type: "bar",
+        name: "Amplitude(%)"
+      }
+    ],
+    layout: {
+      xaxis: {
+        title: {
+          text: "Harmonic Order",
+          font: {
+            family: "Courier New, monospace",
+            size: 17,
+            color: "#7f7f7f"
+          }
+        }
+      }
+    },
+    options: {}
+  };
+  // line-plot end
+  
+  
   // all submit api will trigger here
   async submitEventForSine() {
     this.linedataSine.data = [];
-    console.log(this.eventTime, this.statSineEvent);
-    this.eventPlot = true;
-    // this.eventLoader = false
+
     if (this.myProps.quickTime) {
       console.log("work for quick time");
       let startTime: any;
@@ -398,7 +443,7 @@ export default class EventTrap extends Vue {
       let userDate = new Date(this.eventTime);
       let eventTime = Math.floor(userDate.getTime())
       let data = {
-        "Machine name": this.myProps.machine,
+        "Machine name": "MDB",
         "Start time": apiStartTime.toString(),
         "End time": apiEndTime.toString(),
         "Event trap time": eventTime.toString(),
@@ -408,38 +453,13 @@ export default class EventTrap extends Vue {
       }
       console.log(data);
       let responseData = await axios.post('http://52.142.17.219:5446/api/analytics/trap_data/123-567-8910', data);
-      console.log(responseData);
-      // console.log(responseData.data["Event Trap"]["Sine_wave_data"].Value);
-      // console.log(responseData.data["Event Trap"]["Sine_wave_data"].stat);
-      // console.log(responseData.data["Event Trap"]["Sine_wave_data"].unit);
-      let i = 0;
-      for( let item of responseData.data["Event Trap"]["Sine_wave_data"].stat){
-        console.log(item);
-        let dataOfSine:any = {
-          x: [],
-          y: [],
-          type: "line",
-          // yaxis: 'y2',
-          name: item
-        }
-        let p = 1;
-        for(let itemEvent of responseData.data["Event Trap"]["Sine_wave_data"].Value){
-          console.log(itemEvent)
-          for(let item of itemEvent){
-            console.log("item1"+itemEvent[p])
-            // break;
-            // console.log(p)
-            dataOfSine.x.push(itemEvent[0]);
-            dataOfSine.y.push(itemEvent[i+1]);
-            p++;
-          }
-        }
-        i++;
-        this.linedataSine.data.push(JSON.parse(JSON.stringify(dataOfSine)));
-      }
-      // console.log(this.linedataSine.data);
-      console.log(this.linedataSine)
-      
+      // console.log(responseData);
+      // console.log(responseData.data["Event Trap"]["Sine_wave_data"].data);
+      // console.log(responseData.data["Event Trap"]["Sine_wave_data"].layout);
+
+      this.linedataSine.data = responseData.data["Event Trap"]["Sine_wave_data"].data
+      this.linedataSine.layout = responseData.data["Event Trap"]["Sine_wave_data"].layout
+      console.log(this.linedataSine);
 
     }else{
       console.log("work for custom time");
@@ -454,7 +474,7 @@ export default class EventTrap extends Vue {
       let userDate = new Date(this.eventTime);
       let eventTime = Math.floor(userDate.getTime())
       let data = {
-        "Machine name": this.myProps.machine,
+        "Machine name": "MDB",
         "Start time": apiStartTime.toString(),
         "End time": apiEndTime.toString(),
         "Event trap time": eventTime.toString(),
@@ -464,32 +484,76 @@ export default class EventTrap extends Vue {
       }
       console.log(data);
       let responseData = await axios.post('http://52.142.17.219:5446/api/analytics/trap_data/123-567-8910', data);
-      console.log(responseData.data["Event Trap"]["Sine_wave_data"].value);
-    }
-    
+      this.linedataSine.data = responseData.data["Event Trap"]["Sine_wave_data"].data
+      this.linedataSine.layout = responseData.data["Event Trap"]["Sine_wave_data"].layout
+      console.log(this.linedataSine);
       
+    }    
   }
 
 
-  submitEventForFft() {
+  async submitEventForFft() {
+    if (this.myProps.quickTime) {
+      console.log("work for quick time");
+      let startTime: any;
+      let getUnitStr = this.myProps.quickTime.split("");
+      let unit = getUnitStr[getUnitStr.length - 1];
+      getUnitStr.pop();
+      let time = getUnitStr.join("");
+      if (unit === "m") {
+        startTime = new Date(Date.now() - 60000 * parseInt(time));
+      }
+      if (unit === "h") {
+        startTime = new Date(Date.now() - 1000 * 3600 * parseInt(time));
+      }
+      if (unit === "d") {
+        startTime = new Date(Date.now() - 1000 * 3600 * 24 * parseInt(time));
+      }
 
+      const apiStartTime = Math.floor(startTime.getTime());
+      
+      const date = new Date();
+      const apiEndTime = Math.floor(date.getTime());
+      
+      let userDate = new Date(this.eventTime);
+      let eventTime = Math.floor(userDate.getTime())
+      let data = {
+        "Machine name": "MDB",
+        "Start time": apiStartTime.toString(),	
+        "End time": apiEndTime.toString(),
+        "Event trap time": "",
+        "FFT instant": eventTime.toString(),
+        "Time format": this.myProps.timeZone,
+        "sine_wave_stat": "",
+        "fft_stat":this.statFftEvent
+      }
+      console.log(data);
+      let responseData = await axios.post('http://52.142.17.219:5446/api/analytics/trap_data/123-567-8910', data);
+      console.log(responseData);
+      console.log(responseData.data["Event Trap"]["FFT Data"].Value);
+      let xAxis = [];
+      let yAxis = [];
+      for(let item of responseData.data["Event Trap"]["FFT Data"].Value){
+        xAxis.push(item[0]);
+        yAxis.push(item[1]);
+        console.log(item)
+      }
+      this.fftBarPlot.data[0].x = xAxis
+      this.fftBarPlot.data[0].y = yAxis
+      console.log(this.fftBarPlot.data)
+      // console.log(responseData.data["Event Trap"]["Sine_wave_data"].layout);
+
+      // this.linedataSine.data = responseData.data["Event Trap"]["Sine_wave_data"].data
+      // this.linedataSine.layout = responseData.data["Event Trap"]["Sine_wave_data"].layout
+      // console.log(this.linedataSine);
+
+    }else{
+
+    }
   }
-  linedataSine:any = {
-    data: [
-    ],
-    layout: {
-      autosize: false,
-      width: 850,
-      height: 450,
-      yaxis: {title: 'yaxis title'},
-      // yaxis2: {
-      //   title: 'yaxis2 title',
-      //   overlaying: 'y',
-      //   side: 'right'
-      // }
-    },
-    options: {}
-  };
+  
+
+  
   // line-plot end
 }
 </script>
