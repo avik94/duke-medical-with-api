@@ -167,28 +167,7 @@ export default class Statistics extends Vue {
     this.$refs.formCustomTime.reset()
   }
 
-  clickGroup(data:any){
-    if(data === "MRI Health"){
-        this.statList = [
-          'Voltage(L-N)','Voltage(L-L)', 'Current-3 phase', 'Neutral current', 'Step Current Change (A)', 'PF-3 phase','Voltage variation (%)',                          
-          'Voltage Total Harmonic Distortion (%)', 'Current Total Harmonic Distortion (%)','Frequency Variation (%)'
-        ]
-    }
-    if(data === "Energy Audit"){
-        this.statList = [
-            'Voltage', 'Current', 'Power Factor', 'Active Power', 'Reactive Power','Voltage Total Harmonic Distortion',
-            'Voltage Total Harmonic Distortion 95th Percentile', 'Voltage Total Harmonic Distortion 99th Percentile', 
-            'Current Total Harmonic Distortion', 'Current Total Harmonic Distortion 95th Percentile', 'Current Total Harmonic Distortion 99th Percentile',    
-            'Frequency Variation', 'Maximum Demand Load current', 'Short-Circuit Ratio'
-        ]
-    }
-    if(data === "Drive Health"){
-        this.statList = [
-            'Voltage', 'Current', 'Voltage variation', 'Voltage Total Harmonic Distortion', 'Current Total Harmonic Distortion',                                                       
-            'Frequency Variation', 'Drive Temperature'
-        ]
-    }
-  }
+  
   clickStat(data:any){
     if(data === "Voltage(L-N)" || data === "Voltage(L-L)" || data === "Current-3 phase"){
       this.items = ["Line Plot", "Max", "Min", "Data Table"];
