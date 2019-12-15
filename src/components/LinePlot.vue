@@ -187,7 +187,13 @@ export default class LinePlot extends Vue {
         y: [],
         type: "line",
         name: ""
-      }
+      },
+      // {
+      //   x: [],
+      //   y: [],
+      //   type: "line",
+      //   name: "th"
+      // }
     ],
     layout: {
       autosize: false,
@@ -275,18 +281,22 @@ export default class LinePlot extends Vue {
         let firstYaxis: any = [];
         let seccondYaxis: any = [];
         let thirdYaxis: any = [];
+        // let fourthYaxis:any = [];
         for (let item of responseData.data["Line PLot"].Value) {
           xAxis.push(item[0]);
           firstYaxis.push(item[1]);
           seccondYaxis.push(item[2]);
           thirdYaxis.push(item[3]);
+          // fourthYaxis.push(this.myProps.threshold)
         }
         this.linedata.data[0].x = xAxis;
         this.linedata.data[1].x = xAxis;
         this.linedata.data[2].x = xAxis;
+        // this.linedata.data[3].x = xAxis;
         this.linedata.data[0].y = firstYaxis;
         this.linedata.data[1].y = seccondYaxis;
         this.linedata.data[2].y = thirdYaxis;
+        // this.linedata.data[3].y = fourthYaxis;
         this.view = true;
         this.loader = false;
         this.noData = false;

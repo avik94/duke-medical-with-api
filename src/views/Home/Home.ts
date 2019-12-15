@@ -9,7 +9,7 @@ import axios from 'axios';
 export default class Home extends Vue {
 
   name = "Input Field";
-  machineListName = ["DukeMedicalEquiment", "prop-new", "Novatec"];
+  machineListName = ["MDB"];
   groupList = ["MRI Health", "Energy Audit", "Drive Health"]
   statList:string[] = [
     "Voltage(L-N)","Voltage(L-L)", "Current-3 phase", "PF-3 phase", "Neutral current",                          
@@ -76,7 +76,7 @@ export default class Home extends Vue {
         } 
       }
     }
-    this.machineListName = machineList
+    // this.machineListName = machineList
     console.log(this.machineListName);
     // api call end
     if(!sessionStorage.form){

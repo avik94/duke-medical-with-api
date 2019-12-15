@@ -133,9 +133,11 @@ export default class EventTrap extends Vue {
       }
 
       const apiStartTime = Math.floor(startTime.getTime());
+      this.eventFFtStartTime = apiStartTime // store time for fft and sine wave
       // console.log("Start Time :"+apiStartTime);
       const date = new Date();
       const apiEndTime = Math.floor(date.getTime());
+      this.eventFFtEndTime = apiEndTime;    // store time for fft and sine wave
       // console.log("End Time : "+apiEndTime);
       let data = {
         "Machine name": this.myProps.machine,
@@ -178,10 +180,12 @@ export default class EventTrap extends Vue {
         this.myProps.fromDate + " " + this.myProps.fromHourMinutes
       );
       const apiStartTime = Math.floor(dateStart.getTime());
+      this.eventFFtCustomStartTime = apiStartTime //storing time for sine fft
       const endStart = new Date(
         this.myProps.toDate + " " + this.myProps.toHourMinutes
       );
       const apiEndTime = Math.floor(endStart.getTime());
+      this.eventFFtCustomEndTime = apiEndTime //storing time for sine fft
       let data = {
         "Machine name": this.myProps.machine,
         "Start time": apiStartTime.toString(),
@@ -236,6 +240,12 @@ export default class EventTrap extends Vue {
   eventPlot = false;
   eventLoader = false;
 
+  // this are used in fft sine time 
+  eventFFtStartTime:any;
+  eventFFtEndTime:any;
+  eventFFtCustomStartTime:any;
+  eventFFtCustomEndTime:any;
+
   dateDropDown: any = [];
   statEventDropdown:any = ["Voltage_3ph", "Current_3ph", "Phase_1_Voltage_Current", "Phase_2_Voltage_Current", "Phase_3_Voltage_Current"];
   statFFTDropdown:any = [ "Phase_1_Voltage", "Phase_2_Voltage", "Phase_3_Voltage", "Phase_1_Current", "Phase_2_Current", "Phase_3_Current"];
@@ -261,12 +271,14 @@ export default class EventTrap extends Vue {
       }
 
       const apiStartTime = Math.floor(startTime.getTime());
+      this.eventFFtStartTime = apiStartTime // store time for fft and sine wave
       // console.log("Start Time :"+apiStartTime);
       const date = new Date();
       const apiEndTime = Math.floor(date.getTime());
+      this.eventFFtEndTime = apiEndTime;    // store time for fft and sine wave
       // console.log("End Time : "+apiEndTime);
       let data = {
-        "Machine name": "MDB",
+        "Machine name": this.myProps.machine,
         "Start time": apiStartTime.toString(),
         "End time": apiEndTime.toString(),
         "Event trap time": "",
@@ -306,10 +318,12 @@ export default class EventTrap extends Vue {
         this.myProps.fromDate + " " + this.myProps.fromHourMinutes
       );
       const apiStartTime = Math.floor(dateStart.getTime());
+      this.eventFFtCustomStartTime = apiStartTime //storing time for sine fft
       const endStart = new Date(
         this.myProps.toDate + " " + this.myProps.toHourMinutes
       );
       const apiEndTime = Math.floor(endStart.getTime());
+      this.eventFFtCustomEndTime = apiEndTime //storing time for sine fft
       let data = {
         "Machine name": this.myProps.machine,
         "Start time": apiStartTime.toString(),
@@ -407,6 +421,11 @@ export default class EventTrap extends Vue {
             color: "#7f7f7f"
           }
         }
+      },
+      yaxis: {
+        title: {
+          text: "Amplitude(%)"
+        }
       }
     },
     options: {}
@@ -420,32 +439,13 @@ export default class EventTrap extends Vue {
 
     if (this.myProps.quickTime) {
       console.log("work for quick time");
-      let startTime: any;
-      let getUnitStr = this.myProps.quickTime.split("");
-      let unit = getUnitStr[getUnitStr.length - 1];
-      getUnitStr.pop();
-      let time = getUnitStr.join("");
-      if (unit === "m") {
-        startTime = new Date(Date.now() - 60000 * parseInt(time));
-      }
-      if (unit === "h") {
-        startTime = new Date(Date.now() - 1000 * 3600 * parseInt(time));
-      }
-      if (unit === "d") {
-        startTime = new Date(Date.now() - 1000 * 3600 * 24 * parseInt(time));
-      }
 
-      const apiStartTime = Math.floor(startTime.getTime());
-      // console.log("Start Time :"+apiStartTime);
-      const date = new Date();
-      const apiEndTime = Math.floor(date.getTime());
-      // console.log("End Time : "+apiEndTime);
       let userDate = new Date(this.eventTime);
       let eventTime = Math.floor(userDate.getTime())
       let data = {
-        "Machine name": "MDB",
-        "Start time": apiStartTime.toString(),
-        "End time": apiEndTime.toString(),
+        "Machine name": this.myProps.machine,
+        "Start time": this.eventFFtStartTime.toString(),
+        "End time": this.eventFFtEndTime.toString(),
         "Event trap time": eventTime.toString(),
         "FFT instant": "",
         "Time format": this.myProps.timeZone,
@@ -454,29 +454,20 @@ export default class EventTrap extends Vue {
       console.log(data);
       let responseData = await axios.post('http://52.142.17.219:5446/api/analytics/trap_data/123-567-8910', data);
       // console.log(responseData);
-      // console.log(responseData.data["Event Trap"]["Sine_wave_data"].data);
-      // console.log(responseData.data["Event Trap"]["Sine_wave_data"].layout);
 
       this.linedataSine.data = responseData.data["Event Trap"]["Sine_wave_data"].data
       this.linedataSine.layout = responseData.data["Event Trap"]["Sine_wave_data"].layout
-      console.log(this.linedataSine);
+      // console.log(this.linedataSine);
 
     }else{
       console.log("work for custom time");
-      const dateStart = new Date(
-        this.myProps.fromDate + " " + this.myProps.fromHourMinutes
-      );
-      const apiStartTime = Math.floor(dateStart.getTime());
-      const endStart = new Date(
-        this.myProps.toDate + " " + this.myProps.toHourMinutes
-      );
-      const apiEndTime = Math.floor(endStart.getTime());
+
       let userDate = new Date(this.eventTime);
       let eventTime = Math.floor(userDate.getTime())
       let data = {
-        "Machine name": "MDB",
-        "Start time": apiStartTime.toString(),
-        "End time": apiEndTime.toString(),
+        "Machine name": this.myProps.machine,
+        "Start time": this.eventFFtCustomStartTime.toString(),
+        "End time": this.eventFFtCustomEndTime.toString(),
         "Event trap time": eventTime.toString(),
         "FFT instant": "",
         "Time format": this.myProps.timeZone,
@@ -495,32 +486,43 @@ export default class EventTrap extends Vue {
   async submitEventForFft() {
     if (this.myProps.quickTime) {
       console.log("work for quick time");
-      let startTime: any;
-      let getUnitStr = this.myProps.quickTime.split("");
-      let unit = getUnitStr[getUnitStr.length - 1];
-      getUnitStr.pop();
-      let time = getUnitStr.join("");
-      if (unit === "m") {
-        startTime = new Date(Date.now() - 60000 * parseInt(time));
-      }
-      if (unit === "h") {
-        startTime = new Date(Date.now() - 1000 * 3600 * parseInt(time));
-      }
-      if (unit === "d") {
-        startTime = new Date(Date.now() - 1000 * 3600 * 24 * parseInt(time));
-      }
-
-      const apiStartTime = Math.floor(startTime.getTime());
-      
-      const date = new Date();
-      const apiEndTime = Math.floor(date.getTime());
       
       let userDate = new Date(this.eventTime);
       let eventTime = Math.floor(userDate.getTime())
       let data = {
-        "Machine name": "MDB",
-        "Start time": apiStartTime.toString(),	
-        "End time": apiEndTime.toString(),
+        "Machine name": this.myProps.machine,
+        "Start time": this.eventFFtStartTime.toString(),	
+        "End time": this.eventFFtEndTime.toString(),
+        "Event trap time": "",
+        "FFT instant": eventTime.toString(),
+        "Time format": this.myProps.timeZone,
+        "sine_wave_stat": "",
+        "fft_stat":this.statFftEvent
+      }
+      console.log(data);
+      let responseData = await axios.post('http://52.142.17.219:5446/api/analytics/trap_data/123-567-8910', data);
+      // console.log(responseData);
+      // console.log(responseData.data["Event Trap"]["FFT Data"].Value);
+      let xAxis = [];
+      let yAxis = [];
+      for(let item of responseData.data["Event Trap"]["FFT Data"].Value){
+        xAxis.push(item[0]);
+        yAxis.push(item[1]);
+        // console.log(item)
+      }
+      this.fftBarPlot.data[0].x = xAxis
+      this.fftBarPlot.data[0].y = yAxis
+      // console.log(this.fftBarPlot.data)
+
+    }else{
+      console.log("work for custom time");
+
+      let userDate = new Date(this.eventTime);
+      let eventTime = Math.floor(userDate.getTime())
+      let data = {
+        "Machine name": this.myProps.machine,
+        "Start time": this.eventFFtCustomStartTime.toString(),	
+        "End time": this.eventFFtCustomEndTime.toString(),
         "Event trap time": "",
         "FFT instant": eventTime.toString(),
         "Time format": this.myProps.timeZone,
@@ -541,13 +543,6 @@ export default class EventTrap extends Vue {
       this.fftBarPlot.data[0].x = xAxis
       this.fftBarPlot.data[0].y = yAxis
       console.log(this.fftBarPlot.data)
-      // console.log(responseData.data["Event Trap"]["Sine_wave_data"].layout);
-
-      // this.linedataSine.data = responseData.data["Event Trap"]["Sine_wave_data"].data
-      // this.linedataSine.layout = responseData.data["Event Trap"]["Sine_wave_data"].layout
-      // console.log(this.linedataSine);
-
-    }else{
 
     }
   }
