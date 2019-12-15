@@ -32,63 +32,7 @@
                   </v-form>
                   <p style="margin:0;font-weight:bold" class="text-center">----OR----</p>
                   <v-form class="formContent2" ref="formCustomTime">
-                    <!-- To date-->
-                    <v-menu
-                      ref="menu2"
-                      v-model="menu2"
-                      :close-on-content-click="false"
-                      transition="scale-transition"
-                      offset-y
-                      full-width
-                      min-width="290px"
-                    >
-                      <template v-slot:activator="{ on }">
-                        <v-text-field
-                          :rules="number"
-                          v-model="toDate"
-                          prepend-icon="mdi-calendar-check"
-                          label="To Date"
-                          readonly
-                          v-on="on"
-                        ></v-text-field>
-                      </template>
-                      <v-date-picker v-model="toDate" no-title scrollable>
-                        <div class="flex-grow-1"></div>
-                        <v-btn text color="primary" @click="menu2 = false">Cancel</v-btn>
-                        <v-btn text color="primary" @click="$refs.menu2.save(date)">OK</v-btn>
-                      </v-date-picker>
-                    </v-menu>
-                    <!-- To date end -->
-                    <v-menu
-                      ref="selectTime1"
-                      v-model="time1menu"
-                      :close-on-content-click="false"
-                      :nudge-right="40"
-                      :return-value.sync="time1menu"
-                      transition="scale-transition"
-                      offset-y
-                      full-width
-                      max-width="290px"
-                      min-width="290px"
-                    >
-                      <template v-slot:activator="{ on }">
-                        <v-text-field
-                          v-model="toHourMinutes"
-                          prepend-icon="mdi-calendar-clock"
-                          label="Select Hour & Minutes"
-                          :rules="number"
-                          readonly
-                          v-on="on"
-                        ></v-text-field>
-                      </template>
-                      <v-time-picker
-                        v-if="time1menu"
-                        v-model="toHourMinutes"
-                        full-width
-                        @click:minute="$refs.selectTime1.save(toHourMinutes)"
-                      ></v-time-picker>
-                    </v-menu>
-                    <!-- From date-->
+                    <!-- form date -->
                     <v-menu
                       ref="menu1"
                       v-model="menu1"
@@ -114,7 +58,6 @@
                         <v-btn text color="primary" @click="$refs.menu1.save(date)">OK</v-btn>
                       </v-date-picker>
                     </v-menu>
-                    <!-- from date end -->
                     <v-menu
                       ref="selectTime2"
                       v-model="time2menu"
@@ -144,6 +87,64 @@
                         @click:minute="$refs.selectTime2.save(fromHourMinutes)"
                       ></v-time-picker>
                     </v-menu>
+
+                    <!-- To date-->
+                    <v-menu
+                      ref="menu2"
+                      v-model="menu2"
+                      :close-on-content-click="false"
+                      transition="scale-transition"
+                      offset-y
+                      full-width
+                      min-width="290px"
+                    >
+                      <template v-slot:activator="{ on }">
+                        <v-text-field
+                          :rules="number"
+                          v-model="toDate"
+                          prepend-icon="mdi-calendar-check"
+                          label="To Date"
+                          readonly
+                          v-on="on"
+                        ></v-text-field>
+                      </template>
+                      <v-date-picker v-model="toDate" no-title scrollable>
+                        <div class="flex-grow-1"></div>
+                        <v-btn text color="primary" @click="menu2 = false">Cancel</v-btn>
+                        <v-btn text color="primary" @click="$refs.menu2.save(date)">OK</v-btn>
+                      </v-date-picker>
+                    </v-menu>
+                    <v-menu
+                      ref="selectTime1"
+                      v-model="time1menu"
+                      :close-on-content-click="false"
+                      :nudge-right="40"
+                      :return-value.sync="time1menu"
+                      transition="scale-transition"
+                      offset-y
+                      full-width
+                      max-width="290px"
+                      min-width="290px"
+                    >
+                      <template v-slot:activator="{ on }">
+                        <v-text-field
+                          v-model="toHourMinutes"
+                          prepend-icon="mdi-calendar-clock"
+                          label="Select Hour & Minutes"
+                          :rules="number"
+                          readonly
+                          v-on="on"
+                        ></v-text-field>
+                      </template>
+                      <v-time-picker
+                        v-if="time1menu"
+                        v-model="toHourMinutes"
+                        full-width
+                        @click:minute="$refs.selectTime1.save(toHourMinutes)"
+                      ></v-time-picker>
+                    </v-menu>
+                    <!-- to date end -->
+                    
                   </v-form>
                 </div>
                 <div class="text-center" style="padding-bottom:20px;">
@@ -158,49 +159,6 @@
               </v-card>
             </v-dialog>
             <!-- end input time dialog -->
-          </v-col>
-          <v-col cols="1" style="padding-top: 20px;">
-            <!-- "Gear Dialog" show only input data -->
-            <v-dialog width="300" style="margin-left:20px">
-              <template v-slot:activator="{ on }">
-                <v-btn icon color="secondary lighten-2" dark v-on="on">
-                  <v-icon>mdi-settings</v-icon>
-                </v-btn>
-              </template>
-              <v-card>
-                <div class="cardContent">
-                  <p>
-                    <span>
-                      <v-icon color="primary" size="20" style="padding-right:5px">mdi-settings</v-icon>
-                    </span>
-                    <b>Machine:&nbsp;</b>
-                    {{formData.machine}}
-                  </p>
-                  <p>
-                    <span>
-                      <v-icon color="primary" size="20" style="padding-right:5px">mdi-cube</v-icon>
-                    </span>
-                    <b>Group:&nbsp;</b>
-                    {{formData.group}}
-                  </p>
-                  <p>
-                    <span>
-                      <v-icon color="primary" size="20" style="padding-right:5px">mdi-math-compass</v-icon>
-                    </span>
-                    <b>Stat:&nbsp;</b>
-                    {{formData.stat}}
-                  </p>
-                  <p>
-                    <span>
-                      <v-icon color="primary" size="20" style="padding-right:5px">mdi-flash</v-icon>
-                    </span>
-                    <b>Threshold:&nbsp;</b>
-                    {{formData.threshold}}
-                  </p>
-                </div>
-              </v-card>
-            </v-dialog>
-            <!-- end gear dialog -->
           </v-col>
         </v-row>
         <!-- machine & stat row end -->
